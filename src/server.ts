@@ -2,4 +2,4 @@ function login(username: string): boolean {
     return true;
 }
 
-login('Tanjim')
+login("Tanjim");
