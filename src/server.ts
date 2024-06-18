@@ -1,7 +1,4 @@
-function login(username: string): string {
-    console.log(username);
-    
-    return username;
-}
+import { Config } from "./config";
 
-login("username");
+
+console.log('PORT', Config.NODE_ENV);
