@@ -6,7 +6,6 @@ const startServer = () => {
     const PORT = Config.PORT;
 
     try {
-        throw new Error("Something went wromg");
         app.listen(PORT, () => logger.info(`Listening on port ${PORT}`, {test: 1}))
     } catch (err: unknown) {
         if(err instanceof Error){
