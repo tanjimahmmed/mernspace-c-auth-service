@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import {JwtPayload} from "jsonwebtoken";
 import { AuthRequest, RegisterUserRequest } from "../types";
 import { UserService } from "../services/UserService";
@@ -168,6 +168,6 @@ export class AuthController {
     async self(req: AuthRequest, res: Response){
         
         const user = await this.userService.findById(Number(req.auth.sub))
-        res.json(user)
+        res.json({...user, password: undefined})
     }
 }
