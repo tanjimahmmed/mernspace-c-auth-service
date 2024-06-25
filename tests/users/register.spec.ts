@@ -175,6 +175,7 @@ describe("POST /auth/register", () => {
             interface Headers {
                 ["set-cookie"]: string[];
             }
+            
             // Assert
             let accessToken = null;
             let refreshToken = null;
