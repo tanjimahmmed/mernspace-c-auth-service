@@ -5,7 +5,7 @@ import { Tenant } from "./Tenant";
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
     firstName: string;
