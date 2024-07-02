@@ -5,6 +5,8 @@ import { AppDataSource } from "../../src/config/data-source";
 import app from "../../src/app";
 import { Roles } from "../../src/constants";
 import { User } from "../../src/entity/User";
+import { Tenant } from "../../src/entity/Tenant";
+import { createTenant } from "../utils";
 
 
 describe("POST /users", () => {
@@ -32,6 +34,8 @@ describe("POST /users", () => {
 
     describe("Given all fields", () => {
         it("should persist the user in the database", async() => {
+             // Create tenant first
+            const tenant = await createTenant(connection.getRepository(Tenant))
             const adminToken = jwks.token({
                 sub:'1',
                 role: Roles.ADMIN
@@ -42,7 +46,8 @@ describe("POST /users", () => {
                 lastName: "Jimmiy",
                 email: "tanjim@mern.space",
                 password: "password",
-                tenantId: 1
+                tenantId: tenant.id,
+                role: Roles.MANAGER
             };
             
             // add token to cookie
@@ -84,6 +89,34 @@ describe("POST /users", () => {
             expect(users).toHaveLength(1);
             expect(users[0].role).toBe(Roles.MANAGER)
         })
-        it.todo("should return 403 if non admin user tries to create a user")
+        it("should return 403 if non admin user tries to create a user", async () => {
+            const tenant = await createTenant(connection.getRepository(Tenant))
+
+            const nonAdminToken = jwks.token({
+                sub:'1',
+                role: Roles.MANAGER
+            })
+            // register user
+            const userData = {
+                firstName: "Tanjim",
+                lastName: "Jimmiy",
+                email: "tanjim@mern.space",
+                password: "password",
+                tenantId: tenant.id
+            };
+            
+            // add token to cookie
+            const response = await request(app)
+                .post("/users")
+                .set("Cookie", [`accessToken=${nonAdminToken}`])
+                .send(userData);
+
+            expect(response.statusCode).toBe(403)
+
+            const userRepository = connection.getRepository(User)
+            const users = await userRepository.find()
+
+            expect(users).toHaveLength(0)
+        })
     })
 })
