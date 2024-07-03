@@ -1,4 +1,4 @@
-import express, { NextFunction, RequestHandler, Response, Request } from "express";
+import express, { NextFunction, RequestHandler, Response } from "express";
 import authenticate from "../middlewares/authenticate";
 import { canAccess } from "../middlewares/canAccess";
 import { Roles } from "../constants";
@@ -11,6 +11,7 @@ import { CreateUserRequest, UpdateUserRequest } from "../types";
 import createUserValidator from "../validators/create-user-validator";
 import updateUserValidator from "../validators/update-user-validator";
 import listUsersValidator from "../validators/list-users-validator";
+import { Request } from "express-jwt";
 
 const router = express.Router();
 
