@@ -13,7 +13,7 @@ app.use(cookieParser())
 
 app.use(express.json())
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
     res.send("Welcome to auth service")
 })
 
