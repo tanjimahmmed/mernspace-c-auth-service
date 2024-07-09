@@ -1,4 +1,4 @@
-import {GetVerificationKey, expressjwt} from "express-jwt"
+import {expressjwt, GetVerificationKey} from "express-jwt"
 import { Request } from "express";
 import jwksClient from "jwks-rsa";
 import {Config} from "../config";
