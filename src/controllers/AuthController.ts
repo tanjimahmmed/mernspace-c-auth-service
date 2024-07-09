@@ -72,7 +72,7 @@ export class AuthController {
             res.cookie("accessToken", accessToken, {
                 domain: "localhost",
                 sameSite: "strict",
-                maxAge: 1000 * 60 * 60,
+                maxAge: 1000 * 60 * 60 * 24 * 1,
                 httpOnly: true //very important
             })
 

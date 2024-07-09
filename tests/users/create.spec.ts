@@ -63,33 +63,34 @@ describe("POST /users", () => {
             expect(users[0].email).toBe(userData.email)
         })
 
-        // it("should create a manager user", async () => {
+        it("should create a manager user", async () => {
 
-        //     const adminToken = jwks.token({
-        //         sub: "1",
-        //         role: Roles.ADMIN,
-        //     });
+            const adminToken = jwks.token({
+                sub: "1",
+                role: Roles.ADMIN,
+            });
 
-        //     // Register user
-        //     const userData = {
-        //         firstName: "Tanjim",
-        //         lastName: "Jimmiy",
-        //         email: "tanjim@mern.space",
-        //         password: "password",
-        //         tenantId: 1
-        //     };
+            // Register user
+            const userData = {
+                firstName: "Tanjim",
+                lastName: "Jimmiy",
+                email: "tanjim@mern.space",
+                password: "password",
+                tenantId: 1
+            };
 
-        //     // Add token to cookie
-        //     await request(app)
-        //         .post("/users")
-        //         .set("Cookie", [`accessToken=${adminToken}`])
-        //         .send(userData);
-        //     const userRepository = connection.getRepository(User);
-        //     const users = await userRepository.find();
+            // Add token to cookie
+            await request(app)
+                .post("/users")
+                .set("Cookie", [`accessToken=${adminToken}`])
+                .send(userData);
+            const userRepository = connection.getRepository(User);
+            const users = await userRepository.find();
 
-        //     expect(users).toHaveLength(1);
-        //     expect(users[0].role).toBe(Roles.MANAGER);
-        // });
+            expect(users).toHaveLength(1);
+            expect(users[0].role).toBe(Roles.MANAGER);
+        });
+        
         it("should return 403 if non admin user tries to create a user", async () => {
             const tenant = await createTenant(connection.getRepository(Tenant));
 
